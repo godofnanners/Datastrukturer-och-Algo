@@ -1,12 +1,13 @@
 #pragma once
-template <class T>
-class DoublyLinkedList;
 	
 namespace CommonUtilities
 {
 	template <class T>
 	class DoublyLinkedListNode
 	{
+		template <class U>
+		friend class DoublyLinkedList;
+		
 	public:
 		// Copy-konstruktorn och assignment-operatorn är borttagna, så att det enda
 		// sättet att skapa en nod är genom att stoppa in ett värde i en lista.
@@ -26,7 +27,7 @@ namespace CommonUtilities
 		// ta bort noder utifrån. List-klassen är friend, så att den kan skapa
 		// eller ta bort noder.
 		
-		friend DoublyLinkedList<T>;
+		
 		DoublyLinkedListNode(const T& aValue);
 		~DoublyLinkedListNode() {}
 		T myValue;
@@ -52,5 +53,12 @@ namespace CommonUtilities
 	inline DoublyLinkedListNode<T>* DoublyLinkedListNode<T>::GetPrevious() const
 	{
 		return myPrevNode;
+	}
+	template<class T>
+	inline DoublyLinkedListNode<T>::DoublyLinkedListNode(const T& aValue)
+	{
+		myValue = aValue;
+		myNextNode = nullptr;
+		myPrevNode = nullptr;
 	}
 }

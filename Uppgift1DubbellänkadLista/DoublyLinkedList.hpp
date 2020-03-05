@@ -58,7 +58,7 @@ namespace CommonUtilities
 	template<class T>
 	inline DoublyLinkedList<T>::~DoublyLinkedList()
 	{
-		DoublyLinkedListNode<T> * node = myFirst;
+		DoublyLinkedListNode<T>* node = myFirst;
 		DoublyLinkedListNode<T>* SecondNode = nullptr;
 		for (unsigned int i = 0; i < mySize; i++)
 		{
@@ -94,7 +94,14 @@ namespace CommonUtilities
 		DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
 		node->myPrevNode = NULL;
 		node->myNextNode = myFirst;
-		myFirst->myPrevNode = node;
+		if (mySize > 0)
+		{
+			myFirst->myPrevNode = node;
+		}
+		else
+		{
+			myLast = node;
+		}
 		myFirst = node;
 		++mySize;
 	}
@@ -105,7 +112,14 @@ namespace CommonUtilities
 		DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
 		node->myPrevNode = myLast;
 		node->myNextNode = NULL;
-		myLast->myNextNode = node;
+		if (mySize > 0)
+		{
+			myLast->myNextNode = node;
+		}
+		else
+		{
+			myFirst = node;
+		}
 		myLast = node;
 		++mySize;
 	}
@@ -120,12 +134,12 @@ namespace CommonUtilities
 			node->myNextNode = aNode;
 			aNode->myPrevNode->myNextNode = node;
 			aNode->myPrevNode = node;
+			++mySize;
 		}
 		else
 		{
 			InsertFirst(aValue);
 		}
-		++mySize;
 	}
 
 	template<class T>
@@ -138,18 +152,23 @@ namespace CommonUtilities
 			node->myNextNode = aNode->myNextNode;
 			aNode->myNextNode->myPrevNode = node;
 			aNode->myNextNode = node;
+			++mySize;
 		}
 		else
 		{
 			InsertLast(aValue);
 		}
-		++mySize;
 	}
 
 	template<class T>
 	inline void DoublyLinkedList<T>::Remove(DoublyLinkedListNode<T>* aNode)
 	{
-		if (aNode == myFirst)
+		if (mySize == 1)
+		{
+			myFirst = nullptr;
+			myLast = nullptr;
+		}
+		else if (aNode == myFirst)
 		{
 			aNode->myNextNode->myPrevNode = NULL;
 			myFirst = aNode->myNextNode;
@@ -174,7 +193,7 @@ namespace CommonUtilities
 		DoublyLinkedListNode<T>* node = myFirst;
 		for (size_t i = 0; i < mySize; i++)
 		{
-			if (node->myValue==aValue)
+			if (node->myValue == aValue)
 			{
 				return node;
 			}
@@ -190,7 +209,7 @@ namespace CommonUtilities
 	inline DoublyLinkedListNode<T>* DoublyLinkedList<T>::FindLast(const T& aValue)
 	{
 		DoublyLinkedListNode<T>* node = myLast;
-		for (unsigned int i = mySize - 1; i >= 0; i--)
+		for (int i = mySize - 1; i >= 0; i--)
 		{
 			if (node->myValue == aValue)
 			{
@@ -208,7 +227,7 @@ namespace CommonUtilities
 	inline bool DoublyLinkedList<T>::RemoveFirst(const T& aValue)
 	{
 		DoublyLinkedListNode<T>* node = myFirst;
-		for (size_t i = 0; i < mySize; i++)
+		for (int i = 0; i < mySize; i++)
 		{
 			if (node->myValue == aValue)
 			{
@@ -227,7 +246,7 @@ namespace CommonUtilities
 	inline bool DoublyLinkedList<T>::RemoveLast(const T& aValue)
 	{
 		DoublyLinkedListNode<T>* node = myLast;
-		for (unsigned int i = mySize-1; i >= 0; i--)
+		for (int i = mySize - 1; i >= 0; i--)
 		{
 			if (node->myValue == aValue)
 			{

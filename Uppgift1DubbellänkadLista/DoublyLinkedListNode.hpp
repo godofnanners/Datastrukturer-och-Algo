@@ -1,4 +1,7 @@
 #pragma once
+template <class T>
+class DoublyLinkedList;
+	
 namespace CommonUtilities
 {
 	template <class T>
@@ -22,8 +25,32 @@ namespace CommonUtilities
 		// Konstruktorn och destruktorn är privat, så att man inte kan skapa eller
 		// ta bort noder utifrån. List-klassen är friend, så att den kan skapa
 		// eller ta bort noder.
-		friend class DoublyLinkedList<T>;
+		
+		friend DoublyLinkedList<T>;
 		DoublyLinkedListNode(const T& aValue);
 		~DoublyLinkedListNode() {}
+		T myValue;
+		DoublyLinkedListNode* myNextNode;
+		DoublyLinkedListNode* myPrevNode;
+	};
+	template<class T>
+	inline const T& DoublyLinkedListNode<T>::GetValue() const
+	{
+		return myValue;
+	}
+	template<class T>
+	inline T& DoublyLinkedListNode<T>::GetValue()
+	{
+		return myValue;
+	}
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedListNode<T>::GetNext() const
+	{
+		return myNextNode;
+	}
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedListNode<T>::GetPrevious() const
+	{
+		return myPrevNode;
 	}
 }

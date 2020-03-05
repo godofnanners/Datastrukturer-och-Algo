@@ -1,4 +1,5 @@
 #pragma once
+#include "DoublyLinkedListNode.hpp"
 namespace CommonUtilities
 {
 	template <class T>
@@ -40,7 +41,205 @@ namespace CommonUtilities
 		// Jämförelsen görs med operator==. Om inget element hittas görs ingenting.
 		// Returnerar true om ett element plockades bort, och false annars.
 		bool RemoveLast(const T& aValue);
-
+	private:
+		DoublyLinkedListNode<T>* myFirst;
+		DoublyLinkedListNode<T>* myLast;
+		unsigned int mySize;
 	};
+
+	template<class T>
+	inline DoublyLinkedList<T>::DoublyLinkedList()
+	{
+		mySize = 0;
+		myFirst = NULL;
+		myLast = NULL;
+	}
+
+	template<class T>
+	inline DoublyLinkedList<T>::~DoublyLinkedList()
+	{
+		DoublyLinkedListNode<T> * node = myFirst;
+		DoublyLinkedListNode<T>* SecondNode = nullptr;
+		for (unsigned int i = 0; i < mySize; i++)
+		{
+			SecondNode = node->myNextNode;
+			delete node;
+			node = SecondNode;
+		}
+		node = nullptr;
+		SecondNode = nullptr;
+	}
+
+	template<class T>
+	inline int DoublyLinkedList<T>::GetSize() const
+	{
+		return mySize;
+	}
+
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedList<T>::GetFirst()
+	{
+		return myFirst;
+	}
+
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedList<T>::GetLast()
+	{
+		return myLast;
+	}
+
+	template<class T>
+	inline void DoublyLinkedList<T>::InsertFirst(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
+		node->myPrevNode = NULL;
+		node->myNextNode = myFirst;
+		myFirst->myPrevNode = node;
+		myFirst = node;
+		++mySize;
+	}
+
+	template<class T>
+	inline void DoublyLinkedList<T>::InsertLast(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
+		node->myPrevNode = myLast;
+		node->myNextNode = NULL;
+		myLast->myNextNode = node;
+		myLast = node;
+		++mySize;
+	}
+
+	template<class T>
+	inline void DoublyLinkedList<T>::InsertBefore(DoublyLinkedListNode<T>* aNode, const T& aValue)
+	{
+		if (aNode != myFirst)
+		{
+			DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
+			node->myPrevNode = aNode->myPrevNode;
+			node->myNextNode = aNode;
+			aNode->myPrevNode->myNextNode = node;
+			aNode->myPrevNode = node;
+		}
+		else
+		{
+			InsertFirst(aValue);
+		}
+		++mySize;
+	}
+
+	template<class T>
+	inline void DoublyLinkedList<T>::InsertAfter(DoublyLinkedListNode<T>* aNode, const T& aValue)
+	{
+		if (aNode != myLast)
+		{
+			DoublyLinkedListNode<T>* node = new DoublyLinkedListNode<T>(aValue);
+			node->myPrevNode = aNode;
+			node->myNextNode = aNode->myNextNode;
+			aNode->myNextNode->myPrevNode = node;
+			aNode->myNextNode = node;
+		}
+		else
+		{
+			InsertLast(aValue);
+		}
+		++mySize;
+	}
+
+	template<class T>
+	inline void DoublyLinkedList<T>::Remove(DoublyLinkedListNode<T>* aNode)
+	{
+		if (aNode == myFirst)
+		{
+			aNode->myNextNode->myPrevNode = NULL;
+			myFirst = aNode->myNextNode;
+		}
+		else if (aNode == myLast)
+		{
+			aNode->myPrevNode->myNextNode = NULL;
+			myLast = aNode->myPrevNode;
+		}
+		else
+		{
+			aNode->myNextNode->myPrevNode = aNode->myPrevNode;
+			aNode->myPrevNode->myNextNode = aNode->myNextNode;
+		}
+		--mySize;
+		delete aNode;
+	}
+
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedList<T>::FindFirst(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = myFirst;
+		for (size_t i = 0; i < mySize; i++)
+		{
+			if (node->myValue==aValue)
+			{
+				return node;
+			}
+			else
+			{
+				node = node->myNextNode;
+			}
+		}
+		return nullptr;
+	}
+
+	template<class T>
+	inline DoublyLinkedListNode<T>* DoublyLinkedList<T>::FindLast(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = myLast;
+		for (unsigned int i = mySize - 1; i >= 0; i--)
+		{
+			if (node->myValue == aValue)
+			{
+				return node;
+			}
+			else
+			{
+				node = node->myPrevNode;
+			}
+		}
+		return nullptr;
+	}
+
+	template<class T>
+	inline bool DoublyLinkedList<T>::RemoveFirst(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = myFirst;
+		for (size_t i = 0; i < mySize; i++)
+		{
+			if (node->myValue == aValue)
+			{
+				Remove(node);
+				return true;
+			}
+			else
+			{
+				node = node->myNextNode;
+			}
+		}
+		return false;
+	}
+
+	template<class T>
+	inline bool DoublyLinkedList<T>::RemoveLast(const T& aValue)
+	{
+		DoublyLinkedListNode<T>* node = myLast;
+		for (unsigned int i = mySize-1; i >= 0; i--)
+		{
+			if (node->myValue == aValue)
+			{
+				Remove(node);
+				return true;
+			}
+			else
+			{
+				node = node->myPrevNode;
+			}
+		}
+		return false;
+	}
 
 }

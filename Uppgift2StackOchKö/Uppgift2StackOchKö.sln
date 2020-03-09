@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Uppgift2StackOchKö", "Uppgift2StackOchKö.vcxproj", "{B37FD6C9-5B97-440D-8981-5850665834B9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonUtilities", "CommonUtilities\CommonUtilities.vcxproj", "{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Assignment 2 - Stack and Queue", "Assignment 2 - Stack and Queue\Assignment 2 - Stack and Queue.vcxproj", "{FAD9E141-4CD7-4F6C-8DFA-C9783961F2BF}"
 EndProject
 Global
@@ -25,14 +23,6 @@ Global
 		{B37FD6C9-5B97-440D-8981-5850665834B9}.Release|x64.Build.0 = Release|x64
 		{B37FD6C9-5B97-440D-8981-5850665834B9}.Release|x86.ActiveCfg = Release|Win32
 		{B37FD6C9-5B97-440D-8981-5850665834B9}.Release|x86.Build.0 = Release|Win32
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Debug|x64.ActiveCfg = Debug|x64
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Debug|x64.Build.0 = Debug|x64
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Debug|x86.ActiveCfg = Debug|Win32
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Debug|x86.Build.0 = Debug|Win32
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Release|x64.ActiveCfg = Release|x64
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Release|x64.Build.0 = Release|x64
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Release|x86.ActiveCfg = Release|Win32
-		{93B60F36-2FD8-4479-B1B9-AED1A7A4D9AA}.Release|x86.Build.0 = Release|Win32
 		{FAD9E141-4CD7-4F6C-8DFA-C9783961F2BF}.Debug|x64.ActiveCfg = Debug|x64
 		{FAD9E141-4CD7-4F6C-8DFA-C9783961F2BF}.Debug|x64.Build.0 = Debug|x64
 		{FAD9E141-4CD7-4F6C-8DFA-C9783961F2BF}.Debug|x86.ActiveCfg = Debug|Win32

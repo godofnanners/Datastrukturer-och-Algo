@@ -178,9 +178,6 @@
     <ClCompile Include="StackTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">
-      <Project>{93b60f36-2fd8-4479-b1b9-aed1a7a4d9aa}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Uppgift2StackOchKö.vcxproj">
       <Project>{b37fd6c9-5b97-440d-8981-5850665834b9}</Project>
     </ProjectReference>

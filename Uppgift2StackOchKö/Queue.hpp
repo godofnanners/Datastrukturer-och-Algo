@@ -1,5 +1,5 @@
 #pragma once
-#include "GrowingArray/GrowingArray.h"
+#include "GrowingArray.h"
 #include <assert.h>
 namespace CommonUtilities {
 
@@ -42,7 +42,7 @@ namespace CommonUtilities {
 	inline const T& Queue<T>::GetFront() const
 	{
 		assert(myQueue.Size() > 0 && "Your queue is empty");
-		return myQueue[0];
+		return myQueue.GetLast();
 		// TODO: insert return statement here
 	}
 
@@ -50,22 +50,22 @@ namespace CommonUtilities {
 	inline T& Queue<T>::GetFront()
 	{
 		assert(myQueue.Size() > 0 && "Your queue is empty");
-		return myQueue[0];
+		return myQueue.GetLast();
 		// TODO: insert return statement here
 	}
 
 	template<class T>
 	inline void Queue<T>::Enqueue(const T& aValue)
 	{
-		myQueue.Add(aValue);
+		myQueue.Insert(0, aValue);
 	}
 
 	template<class T>
 	inline T Queue<T>::Dequeue()
 	{
 		assert(myQueue.Size() > 0 && "Your queue is empty");
-		T FirstQueueValue = GetFront();
-		myQueue.RemoveCyclicAtIndex(0);
+		T FirstQueueValue = myQueue.GetLast();
+		myQueue.RemoveCyclicAtIndex(myQueue.Size()-1);
 		return FirstQueueValue;
 	}
 

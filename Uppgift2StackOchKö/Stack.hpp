@@ -1,5 +1,5 @@
 #pragma once
-#include "GrowingArray/GrowingArray.h"
+#include "GrowingArray.h"
 #include <assert.h>
 namespace CommonUtilities
 {

@@ -58,7 +58,7 @@ inline bool BSTSet<T>::HasElement(const T& aValue)
 		{
 			return true;
 		}
-		else if (Node->myValue < aValue)
+		else if (aValue<Node->myValue)
 		{
 			Node = Node->myLeftNode;
 		}
@@ -73,35 +73,122 @@ inline bool BSTSet<T>::HasElement(const T& aValue)
 template<class T>
 inline void BSTSet<T>::Insert(const T& aValue)
 {
-	BSTSetNode<T>* Node = myRootNode;
-	while (!(Node->myValue < aValue) && !(aValue < Node->myValue))
+
+	if (myRootNode == nullptr)
 	{
-		if (Node->myValue < aValue)
-		{
-			if (Node->myLeftNode==nullptr)
-			{
-				Node->myLeftNode = new BSTSetNode<T>(aValue);
-			}
-			Node = Node->myLeftNode;
-		}
-		else if(aValue < Node->myValue)
-		{
-			if (Node->myLeftNode == nullptr)
-			{
-				Node->myLeftNode = new BSTSetNode<T>(aValue);
-			}
-			Node = Node->myRightNode;
-		}	
+		myRootNode = new BSTSetNode<T>(aValue);
 	}
-	
+	else
+	{
+		BSTSetNode<T>* Node = myRootNode;
+		while (!(!(Node->myValue < aValue) && !(aValue < Node->myValue)))
+		{
+			if (aValue < Node->myValue)
+			{
+				if (Node->myLeftNode == nullptr)
+				{
+					Node->myLeftNode = new BSTSetNode<T>(aValue);
+				}
+				Node = Node->myLeftNode;
+			}
+			else if (Node->myValue < aValue)
+			{
+				if (Node->myRightNode == nullptr)
+				{
+					Node->myRightNode = new BSTSetNode<T>(aValue);
+				}
+				Node = Node->myRightNode;
+			}
+		}
+	}
 }
 
 template<class T>
 inline void BSTSet<T>::Remove(const T& aValue)
 {
-	while (!(Node->myValue < aValue) && !(aValue < Node->myValue))
+	if (myRootNode == nullptr)
+		return;
+	BSTSetNode<T>* PrevNode = nullptr;
+	BSTSetNode<T>* Node = myRootNode;
+	BSTSetNode<T>* NodeToDelete = nullptr;
+	//Find Node
+	while (!(!(Node->myValue < aValue) && !(aValue < Node->myValue)))
 	{
-
+		if (Node->myValue < aValue)
+		{
+			if (Node->myRightNode != nullptr)
+			{
+				PrevNode = Node;
+				Node = Node->myRightNode;
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (Node->myLeftNode != nullptr)
+			{
+				PrevNode = Node;
+				Node = Node->myLeftNode;
+			}
+			else
+			{
+				return;
+			}
+		}
 	}
+	NodeToDelete = Node;
+
+	//Delete Node
+	if (Node->myLeftNode == nullptr && Node->myRightNode == nullptr)
+	{
+		if (PrevNode->myLeftNode==NodeToDelete)
+		{
+			PrevNode->myLeftNode = nullptr;
+		}
+		else
+		{
+			PrevNode->myRightNode = nullptr;
+		}
+		delete NodeToDelete;		
+	}
+	else if (Node->myLeftNode != nullptr && Node->myRightNode == nullptr)
+	{
+		Node = Node->myLeftNode;
+	}
+	else if (Node->myLeftNode == nullptr && Node->myRightNode != nullptr)
+	{
+		Node = Node->myRightNode;
+	}
+	else
+	{
+		Node = Node->myRightNode;
+		while (Node->myLeftNode != nullptr)
+		{
+			Node = Node->myLeftNode;
+		}
+
+		NodeToDelete->myValue = Node->myValue;
+
+		if (Node->myRightNode != nullptr)
+		{
+			Node = Node->myRightNode;
+		}
+		else
+		{
+			if (PrevNode->myLeftNode == Node)
+			{
+				PrevNode->myLeftNode = nullptr;
+			}
+			else
+			{
+				PrevNode->myRightNode = nullptr;
+			}
+			delete Node;			
+		}
+	}
+
 }
 

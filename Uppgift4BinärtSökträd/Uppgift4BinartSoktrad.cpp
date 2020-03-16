@@ -23,7 +23,10 @@ namespace Uppgift4BinartSoktrad
 			myTree.Insert(6);
 
 			myTree.HasElement(6);
+			myTree.Remove(10);
 			myTree.Remove(6);
+			myTree.Remove(4);
+			myTree.Remove(3);
 			myTree.HasElement(6);
 			myTree.HasElement(12);
 			myTree.Remove(12);

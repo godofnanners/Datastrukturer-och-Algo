@@ -9,9 +9,34 @@ namespace Uppgift4BinartSoktrad
 	{
 	public:
 		
-		TEST_METHOD(Test_BSTSetTree)
+		TEST_METHOD(Test_BSTSetTree_Insert)
 		{
-			BSTSet<float> myTree;
+			CommonUtilities::BSTSet<float> myTree;
+			myTree.Insert(5);
+			myTree.Insert(3);
+			myTree.Insert(4);
+			myTree.Insert(1);
+			myTree.Insert(10);
+			myTree.Insert(11);
+			myTree.Insert(7);
+			myTree.Insert(9);
+			myTree.Insert(6);
+			Assert::IsTrue(myTree.HasElement(5));
+			Assert::IsTrue(myTree.HasElement(3));
+			Assert::IsTrue(myTree.HasElement(4));
+			Assert::IsTrue(myTree.HasElement(1));
+			Assert::IsTrue(myTree.HasElement(10));
+			Assert::IsTrue(myTree.HasElement(11));
+			Assert::IsTrue(myTree.HasElement(7));
+			Assert::IsTrue(myTree.HasElement(9));
+			Assert::IsTrue(myTree.HasElement(6));
+			Assert::IsFalse(myTree.HasElement(2));
+			Assert::IsFalse(myTree.HasElement(12));
+			Assert::IsFalse(myTree.HasElement(8));
+		}
+		TEST_METHOD(Test_BSTSetTree_Remove)
+		{
+			CommonUtilities::BSTSet<float> myTree;
 			myTree.Insert(5);
 			myTree.Insert(3);
 			myTree.Insert(4);
@@ -22,14 +47,9 @@ namespace Uppgift4BinartSoktrad
 			myTree.Insert(9);
 			myTree.Insert(6);
 
-			myTree.HasElement(6);
-			myTree.Remove(10);
-			myTree.Remove(6);
-			myTree.Remove(4);
-			myTree.Remove(3);
-			myTree.HasElement(6);
-			myTree.HasElement(12);
-			myTree.Remove(12);
+			myTree.Remove(5);
+			
+		
 		}
 	};
 }

@@ -1,18 +1,46 @@
 #pragma once
+//node
 namespace CommonUtilities
 {
 	template <class T>
 	class BSTSetNode
 	{
-		//template <class U>
-		friend class BSTSet;
+	public:
+		BSTSetNode(const BSTSetNode&) = delete;
+		BSTSetNode& operator=(const BSTSetNode&) = delete;
+		const T& GetData() const;
 
+		const BSTSetNode<T>* GetLeft() const;
+		const BSTSetNode<T>* GetRight() const;
+
+	private:
+		BSTSetNode<T>() {};
+		template <class U>
+		friend class BSTSet;
 		BSTSetNode(T aValue);
 		~BSTSetNode() {};
 		T myValue;
 		BSTSetNode<T>* myRightNode;
 		BSTSetNode<T>* myLeftNode;
 	};
+
+	template<class T>
+	inline const T& BSTSetNode<T>::GetData() const
+	{
+		return myValue;
+	}
+
+	template<class T>
+	inline const BSTSetNode<T>* BSTSetNode<T>::GetLeft() const
+	{
+		return myLeftNode;
+	}
+
+	template<class T>
+	inline const BSTSetNode<T>* BSTSetNode<T>::GetRight() const
+	{
+		return myRightNode;
+	}
 
 	template<class T>
 	inline BSTSetNode<T>::BSTSetNode(T aValue)
@@ -28,6 +56,7 @@ namespace CommonUtilities
 	public:
 		BSTSet();
 		~BSTSet();
+		const BSTSetNode<T>* GetRoot() const;
 		//Returnerar true om elementet finns i mängden, och false annars.
 		bool HasElement(const T& aValue);
 		//Stoppar in elementet i mängden, om det inte redan finns där. Gör
@@ -35,7 +64,15 @@ namespace CommonUtilities
 		void Insert(const T& aValue);
 		//Plockar bort elementet ur mängden, om det finns. Gör ingenting annars.
 		void Remove(const T& aValue);
+		void DSWBalance();
 	private:
+		BSTSetNode<T>* RotateRight(BSTSetNode<T>* aGrandparent, BSTSetNode<T>* aParent, BSTSetNode<T>* aLeftChild);
+		void RotateLeft(BSTSetNode<T>* aGrandparent, BSTSetNode<T>* aParent, BSTSetNode<T>* aRightChild);
+		void CreateBackbone();
+		void CreateBalancedTree();
+		void MakeBalancingRotations(int aBound);
+		int GreatestPowerOf2LessThanN(int aN);
+		int MSB(int n);
 		BSTSetNode<T>* myRootNode;
 	};
 
@@ -48,6 +85,12 @@ namespace CommonUtilities
 	template<class T>
 	inline BSTSet<T>::~BSTSet()
 	{
+	}
+
+	template<class T>
+	inline const BSTSetNode<T>* BSTSet<T>::GetRoot() const
+	{
+		return myRootNode;
 	}
 
 	template<class T>
@@ -198,7 +241,7 @@ namespace CommonUtilities
 				else
 				{
 					prevNode->myRightNode = steppingNode->myRightNode;
-				}				
+				}
 			}
 			else
 			{
@@ -233,7 +276,7 @@ namespace CommonUtilities
 				{
 					prevNode->myRightNode = steppingNode->myRightNode;
 					delete steppingNode;
-				}				
+				}
 			}
 			else
 			{
@@ -249,6 +292,122 @@ namespace CommonUtilities
 				}
 			}
 		}
+	}
+
+	template<class T>
+	inline void BSTSet<T>::DSWBalance()
+	{
+		CreateBackbone();
+		CreateBalancedTree();
+	}
+
+	template<class T>
+	inline BSTSetNode<T>* BSTSet<T>::RotateRight(BSTSetNode<T>* aGrandparent, BSTSetNode<T>* aParent, BSTSetNode<T>* aLeftChild)
+	{
+		if (nullptr != aGrandparent)
+		{
+			aGrandparent->myRightNode = aLeftChild;
+		}
+		else
+		{
+			myRootNode = aLeftChild;
+		}
+		aParent->myLeftNode = aLeftChild->myRightNode;
+		aLeftChild->myRightNode = aParent;
+		return aGrandparent;
+	}
+
+	template<class T>
+	inline void BSTSet<T>::RotateLeft(BSTSetNode<T>* aGrandparent, BSTSetNode<T>* aParent, BSTSetNode<T>* aRightChild)
+	{
+		if (nullptr != aGrandparent)
+		{
+			aGrandparent->myRightNode = aRightChild;
+		}
+		else
+		{
+			myRootNode = aRightChild;
+		}
+		aParent->myRightNode = aRightChild->myLeftNode;
+		aRightChild->myLeftNode = aParent;
+	}
+
+	template<class T>
+	inline void BSTSet<T>::CreateBackbone()
+	{
+		BSTSetNode<T>* grandParent = nullptr;
+		BSTSetNode<T>* parent = myRootNode;
+		BSTSetNode<T>* leftChild;
+
+		while (nullptr != parent)
+		{
+			leftChild = parent->myLeftNode;
+			if (nullptr != leftChild)
+			{
+				grandParent = RotateRight(grandParent, parent, leftChild);
+				parent = leftChild;
+			}
+			else
+			{
+				grandParent = parent;
+				parent = parent->myRightNode;
+			}
+		}
+	}
+	template<class T>
+	inline void BSTSet<T>::CreateBalancedTree()
+	{
+		int n = 0;
+		for (BSTSetNode<T>* tmp = myRootNode; nullptr != tmp; tmp = tmp->myRightNode)
+		{
+			n++;
+		}
+		//m = 2^floor[lg(n+1)]-1, ie the greatest power of 2 less than n: minus 1
+		int m = GreatestPowerOf2LessThanN(n + 1) - 1;
+		MakeBalancingRotations(n - m);
+
+		while (m > 1)
+		{
+			MakeBalancingRotations(m /= 2);
+		}
+	}
+	template<class T>
+	inline void BSTSet<T>::MakeBalancingRotations(int aBound)
+	{
+		BSTSetNode<T>* grandParent = nullptr;
+		BSTSetNode<T>* parent = myRootNode;
+		BSTSetNode<T>* child = myRootNode->myRightNode;
+		for (; aBound > 0; aBound--)
+		{
+				if (nullptr != child)
+				{
+					RotateLeft(grandParent, parent, child);
+					grandParent = child;
+					parent = grandParent->myRightNode;
+					child = parent->myRightNode;
+				}
+				else
+				{
+					break;
+				}
+		}
+	}
+	template<class T>
+	inline int BSTSet<T>::GreatestPowerOf2LessThanN(int aN)
+	{
+		int x = MSB(aN);//MSB
+		return (1 << x);//2^x
+	}
+	template<class T>
+	inline int BSTSet<T>::MSB(int n)
+	{
+		int ndx = 0;
+		while (1 < n)
+		{
+			n = (n >> 1);
+			ndx++;
+		}
+		return ndx;
 	}
 }
 

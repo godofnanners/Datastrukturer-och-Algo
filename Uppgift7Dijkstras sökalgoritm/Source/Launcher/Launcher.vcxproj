@@ -149,6 +149,11 @@
   <ItemGroup>
     <Image Include="tga.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">
+      <Project>{93b60f36-2fd8-4479-b1b9-aed1a7a4d9aa}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

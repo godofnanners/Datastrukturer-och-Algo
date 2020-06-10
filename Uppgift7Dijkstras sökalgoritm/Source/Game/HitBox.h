@@ -13,7 +13,7 @@ public:
 	const float GetWidth();
 	const float GetHeight();
 	void Update(Tga2D::Vector2f aPosition);
-	void DrawHitbox();
+	void DrawHitbox(Tga2D::CColor aColor);
 	bool CheckCollision(HitBox aHitbox);
 	bool CheckifPointIsInside(Tga2D::Vector2f aPoint);
 private:

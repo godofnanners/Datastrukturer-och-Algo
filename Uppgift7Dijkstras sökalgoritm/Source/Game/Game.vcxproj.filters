@@ -21,7 +21,6 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="MinHeap.hpp" />
     <ClInclude Include="HitBox.h" />
-    <ClInclude Include="GrowingArray\GrowingArray.h" />
     <ClInclude Include="Dijkstra.hpp" />
   </ItemGroup>
   <ItemGroup>

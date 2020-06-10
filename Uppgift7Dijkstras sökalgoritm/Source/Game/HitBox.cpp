@@ -39,12 +39,12 @@ void HitBox::Update(Tga2D::Vector2f aPosition)
 	//DrawHitbox();
 }
 
-void HitBox::DrawHitbox()
+void HitBox::DrawHitbox(Tga2D::CColor aColor)
 {
-	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y + myHeight), Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y), Tga2D::CColor(1.f, 0.5f, 1, 1));
-	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x, myCenterPosition.y + myHeight), myCenterPosition, Tga2D::CColor(1.f, 0.5f, 1, 1));
-	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y), myCenterPosition, Tga2D::CColor(1.f, 0.5f, 1, 1));
-	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x, myCenterPosition.y + myHeight), Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y + myHeight), Tga2D::CColor(1.f, 0.5f, 1, 1));
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y + myHeight), Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y), aColor);
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x, myCenterPosition.y + myHeight), myCenterPosition, aColor);
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y), myCenterPosition, aColor);
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(Tga2D::Vector2f(myCenterPosition.x, myCenterPosition.y + myHeight), Tga2D::Vector2f(myCenterPosition.x + myWidth, myCenterPosition.y + myHeight), aColor);
 }
 
 bool HitBox::CheckCollision(HitBox aHitbox)
@@ -61,7 +61,7 @@ bool HitBox::CheckCollision(HitBox aHitbox)
 
 bool HitBox::CheckifPointIsInside(Tga2D::Vector2f aPoint)
 {
-	if (aPoint.x > myCenterPosition.x && aPoint.x < myCenterPosition.x+myWidth && aPoint.y > myCenterPosition.y && aPoint.y < myCenterPosition.y+myWidth)
+	if (aPoint.x > myCenterPosition.x  && aPoint.x < myCenterPosition.x+myWidth && aPoint.y > myCenterPosition.y && aPoint.y < myCenterPosition.y+myHeight)
 	{
 		return true;
 	}

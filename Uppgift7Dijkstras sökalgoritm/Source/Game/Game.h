@@ -14,5 +14,5 @@ private:
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	CGameWorld myGameWorld;
-
+	
 };

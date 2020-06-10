@@ -6,6 +6,11 @@ namespace Tga2D
 	class FBXModel;
 	class CAudio;
 }
+namespace CommonUtilities
+{
+	class InputHandler;
+}
+
 class Grid;
 class CGameWorld
 {

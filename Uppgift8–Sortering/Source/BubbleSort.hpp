@@ -1,4 +1,5 @@
 #pragma once
+
 namespace CommonUtilities
 {
 
@@ -11,13 +12,12 @@ namespace CommonUtilities
 			swapped = false;
 			for (size_t j = 0; j < aVector.size()-i-1; j++)
 			{
-				if (aVector[j]<aVector[j+1])
+				if (aVector[j+1]<aVector[j])
 				{
-					Swap(aVector[j], aVector[j + 1]);
+					std::swap(aVector[j], aVector[j + 1]);
 					swapped = true;
 				}
 			}
-
 			if (swapped==false)
 			{
 				break;
@@ -25,11 +25,4 @@ namespace CommonUtilities
 		}
 	}
 
-	template<typename T>
-	void Swap(T& aNumber1, T& aNumber2)
-	{
-		int temp = aNumber1;
-		aNumber1 = aNumber2;
-		aNumber2 = temp;
-	}
 }

@@ -6,10 +6,7 @@
 
 namespace CommonUtilities
 {
-	template<typename T>
-	void SelectionSort(std::vector<T>& aVector); 
-	template<typename T>
-	void QuickSort(std::vector<T>& aVector); 
-	template<typename T>
-	void MergeSort(std::vector<T>& aVector);
+	
+	
+	
 }
